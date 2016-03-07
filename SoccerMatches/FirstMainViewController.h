@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  FirstMainViewController.h
 //  SoccerMatches
 //
 //  Created by ziwen.xi on 16/3/5.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface FirstMainViewController : UIViewController
 
 @end
-

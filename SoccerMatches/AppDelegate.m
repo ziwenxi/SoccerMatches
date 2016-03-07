@@ -7,7 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+
+#import "RDVTabBarController.h"
+#import "RDVTabBarItem.h"
+
+#import "FirstMainViewController.h"
 
 @interface AppDelegate ()
 
@@ -18,12 +22,68 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window=[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    self.viewController=[[ViewController alloc] initWithNibName:nil bundle:nil];
+    [self setupViewControllers];
     self.window.rootViewController=self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
 
+}
+
+- (void)setupViewControllers {
+    
+    UIViewController *firstViewController = [[FirstMainViewController alloc] init];
+    firstViewController.title = NSLocalizedString(@"足球", nil);
+    UIViewController *firstNavigationController = [[UINavigationController alloc]
+                                                   initWithRootViewController:firstViewController];
+    
+    UIViewController *secondViewController = [[UIViewController alloc] init];
+    UIViewController *secondNavigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:secondViewController];
+    
+    UIViewController *thirdViewController = [[UIViewController alloc] init];
+    UIViewController *thirdNavigationController = [[UINavigationController alloc]
+                                                   initWithRootViewController:thirdViewController];
+    
+    RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
+    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,
+                                           thirdNavigationController]];
+    
+    self.viewController = tabBarController;
+    
+
+    
+    
+    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
+    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
+    NSArray *tabBarItemImages = @[@"first", @"second", @"third"];
+    
+    NSInteger index = 0;
+    for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
+        [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
+        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected",
+                                                      [tabBarItemImages objectAtIndex:index]]];
+        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_normal",
+                                                        [tabBarItemImages objectAtIndex:index]]];
+        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
+        [item selectedTitleAttributes];
+        
+        
+        
+//        NSDictionary *navTitleArr = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                     [UIFont boldSystemFontOfSize:20],UITextAttributeFont,
+//                                     [UIColor redColor],UITextAttributeTextColor ,[NSValue valueWithCGSize:CGSizeMake(2.0, 2.0)] , UITextAttributeTextShadowOffset ,
+//                                     [UIColor whiteColor] ,UITextAttributeTextShadowColor ,nil];
+//        item.unselectedTitleAttributes = navTitleArr;
+
+        index++;
+    }
+    
+    
+    
+    //- (void)viewWillAppear:(BOOL)animated{
+    //    [super viewWillAppear:animated];
+    //    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    //}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
